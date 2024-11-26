@@ -45,9 +45,10 @@ func NewDenDenMushi() *DenDenMushi {
 
 func (ddm *DenDenMushi) LoadCommands() {
 	logger.Info("Loading commands...")
-	ddm.k.RegisterCommands(
+	err := ddm.k.RegisterCommands(
 		new(commands.PingCommand),
 	)
+	must(err)
 	logger.Info("Commands loaded")
 }
 
@@ -64,7 +65,6 @@ func (ddm *DenDenMushi) Start() {
 	logger.Info("Discord session opened. Press Ctrl + C to close.")
 
 	defer ddm.session.Close()
-	defer ddm.k.Unregister()
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
 	<- stop
