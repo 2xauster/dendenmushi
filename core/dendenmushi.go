@@ -9,6 +9,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/jauster101/dendenmushi/commands"
 	"github.com/jauster101/dendenmushi/core/logger"
+	"github.com/jauster101/dendenmushi/handlers"
 	"github.com/zekrotja/ken"
 )
 
@@ -50,13 +51,17 @@ func (ddm *DenDenMushi) LoadCommands() {
 	logger.Info("Commands loaded")
 }
 
+func (ddm *DenDenMushi) LoadHandlers() {
+	logger.Info("Loading handlers...")
+	ddm.session.AddHandler(handlers.ReadyHandler)
+}
 func (ddm *DenDenMushi) Start() {
 	logger.Info("Starting app...")
 
 	sErr := ddm.session.Open()
 	must(sErr)
 
-	logger.Info("Discord session established. Press Ctrl + C to close.")
+	logger.Info("Discord session opened. Press Ctrl + C to close.")
 
 	defer ddm.session.Close()
 	defer ddm.k.Unregister()

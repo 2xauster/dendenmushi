@@ -16,5 +16,6 @@ func main() {
 
 	ddm := core.NewDenDenMushi()
 	ddm.LoadCommands()
+	ddm.LoadHandlers()
 	ddm.Start()
 }
